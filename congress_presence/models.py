@@ -10,3 +10,6 @@ class Participant(models.Model):
 
     def __unicode__(self):
         return "%s %s from LC %s" % (self.first_name, self.last_name, self.lc)
+
+    def __str__(self):
+        return "%s %s" % (self.first_name, self.last_name)
