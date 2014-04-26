@@ -13,30 +13,47 @@
         </div>
        <div class="container">
             <div class="accordion" id="accordion2">
+                {%for lc in all_missing%}
                 <div class="accordion-group red">
                     <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                            Collapsible Group Item #1
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#{{lc.name}}">
+                            {{lc.name}} 0/{{ lc.missing|length }}
                         </a>
                     </div>
-                    <div id="collapseOne" class="accordion-body collapse">
+                    <div id="{{lc.name}}" class="accordion-body collapse">
                         <div class="accordion-inner">
-                            Anim pariatur cliche...
+                            {% for name in lc.missing%}
+                                {{name}}
+                            {%endfor%}
                         </div>
                     </div>
                 </div>
-                <div class="accordion-group">
+                {%endfor%}
+                {%for lc in some_missing%}
+                <div class="accordion-group yellow">
                     <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-                            Collapsible Group Item #2
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#{{lc.name}}">
+                            {{lc.name}} {{ lc.missing|length }}/{{lc.count}} 
                         </a>
                     </div>
-                    <div id="collapseTwo" class="accordion-body collapse">
+                    <div id="{{lc.name}}" class="accordion-body collapse">
                         <div class="accordion-inner">
-                            Anim pariatur cliche...
+                            {% for name in lc.missing%}
+                                {{name}}
+                            {%endfor%}
                         </div>
                     </div>
                 </div>
+                {%endfor%}
+                {%for lc in all_here%}
+                <div class="accordion-group green">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#{{lc.name}}">
+                            {{lc.lc}} {{ lc.count }}/{{lc.count}} 
+                        </a>
+                    </div>
+                </div>
+                {%endfor%}
             </div>
         </div>
     </body>

@@ -19,16 +19,19 @@ class BaseView(View):
 
         for item in lcs:
             absences = filter(lambda x: x.lc == item['lc'], all_absences)
-            if not absences:
+            if not absences: # none missing
                 all_here.append(item)
-            elif item['count'] == len(absences):
+            elif item['count'] == len(absences): # all missing
+                name_list = map(lambda x: x.__str__(), absences)
+                temp = {'name': item['lc'], 'missing': name_list}
+                none_here.append(temp)
+            else: # some missing
                 name_list = map(lambda x: x.__str__(), absences)
                 temp = {'name': item['lc'], 'count': item['count'],
                         'missing': name_list}
                 some_here.append(temp)
-            else:
-                name_list = map(lambda x: x.__str__(), absences)
-                temp = {'name': item['lc'], 'missing': name_list}
-                none_here.append(temp)
 
-        return render_to_response('index.html')
+        print "The list is " + str(none_here)
+        return render_to_response('index.html', {'all_missing': none_here,
+                                                 'some_missing': some_here,
+                                                 'all_here': all_here})
