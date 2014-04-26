@@ -6,7 +6,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'here/', BaseView.as_view()),
+    url(r'here/$', BaseView.as_view()),
+    url(r'here/(?P<id>[0-9]+)/$', BaseView.as_view()),
     # url(r'^congress/', include('congress.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

@@ -1,10 +1,12 @@
 # Create your views here.
 from django.shortcuts import render_to_response
+from django.http import HttpResponse
 from django.views.generic import View
 from django.db.models import Count
 
 from models import Participant
 
+TOKEN = "test"
 
 class BaseView(View):
 
@@ -31,7 +33,19 @@ class BaseView(View):
                         'missing': name_list}
                 some_here.append(temp)
 
-        print "The list is " + str(none_here)
         return render_to_response('index.html', {'all_missing': none_here,
                                                  'some_missing': some_here,
                                                  'all_here': all_here})
+    def put(self, request, *args, **kwargs):
+        data = request.raw_post_data
+        key = data.split('=')[0]
+        val = data.split('=')[1]
+        if key == 'token' and val == TOKEN:
+            try:
+                participant = Participant.objects.get(id=self.kwargs['id'])
+            except Participant.DoesNotExist:
+                return HttpResponse(status=404)
+            participant.here = True
+            participant.save()
+            return HttpResponse(status=200)
+        return HttpResponse(status=401)
