@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.views.generic import View
 from django.db.models import Count
-
+import json
 from models import Participant
 
 TOKEN = "test"
@@ -37,14 +37,18 @@ class BaseView(View):
         return render_to_response('index.html', {'all_missing': none_here,
                                                  'some_missing': some_here,
                                                  'all_here': all_here})
-
     def put(self, request, *args, **kwargs):
-        data = request.raw_post_data
-        key = data.split('=')[0]
-        val = data.split('=')[1]
-        if key == 'token' and val == TOKEN:
+        if not kwargs:
+            return HttpResponse(status=405)
+        data = request.body
+        try:
+            info = json.loads(data)
+            val = info['token']
+        except:
+            return HttpResponse(status=400)
+        if val == TOKEN:
             try:
-                participant = Participant.objects.get(id=self.kwargs['id'])
+                participant = Participant.objects.get(id=kwargs['id'])
             except Participant.DoesNotExist:
                 return HttpResponse(status=404)
             participant.here = True
