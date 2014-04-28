@@ -23,7 +23,7 @@
                     <div id="{{lc.name}}" class="accordion-body collapse">
                         <div class="accordion-inner">
                             {% for name in lc.missing%}
-                                {{name}}
+                            {{name}} <br/>
                             {%endfor%}
                         </div>
                     </div>
@@ -33,13 +33,13 @@
                 <div class="accordion-group yellow">
                     <div class="accordion-heading">
                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#{{lc.name}}">
-                            {{lc.name}} {{ lc.missing|length }}/{{lc.count}} 
+                            {{lc.name}} {{ lc.count_here }}/{{lc.count_all}} 
                         </a>
                     </div>
                     <div id="{{lc.name}}" class="accordion-body collapse">
                         <div class="accordion-inner">
                             {% for name in lc.missing%}
-                                {{name}}
+                                {{name}}<br/>
                             {%endfor%}
                         </div>
                     </div>

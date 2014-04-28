@@ -22,6 +22,7 @@ class BaseView(View):
 
         for item in lcs:
             absences = filter(lambda x: x.lc == item['lc'], all_absences)
+            item['lc'] = item['lc'].replace(" ", "_")
             if not absences:  # none missing
                 all_here.append(item)
             elif item['count'] == len(absences):  # all missing
@@ -30,7 +31,8 @@ class BaseView(View):
                 none_here.append(temp)
             else:  # some missing
                 name_list = map(lambda x: x.__str__(), absences)
-                temp = {'name': item['lc'], 'count': item['count'],
+                temp = {'name': item['lc'], 'count_all': item['count'],
+                        'count_here': item['count']-len(name_list),
                         'missing': name_list}
                 some_here.append(temp)
 
